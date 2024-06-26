@@ -1,35 +1,40 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
+import 'package:bloc/bloc.dart';
 
-class SimpleBlocObserver implements BlocObserver {
+class SimpleBlocObserver extends BlocObserver {
   @override
-  void onChange(BlocBase bloc, Change change) {
-    debugPrint('change = $change ');
-  }
-
-  @override
-  void onClose(BlocBase bloc) {
-    debugPrint('close = $bloc');
-  }
-
-  @override
-  void onCreate(BlocBase bloc) {
-    debugPrint('create = $bloc');
-  }
-
-  @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    // TODO: implement onError
+	void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    log('onCreate -- bloc: ${bloc.runtimeType}');
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
-    // TODO: implement onEvent
+    super.onEvent(bloc, event);
+    log('onEvent -- bloc: ${bloc.runtimeType}, event: $event');
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    log('onChange -- bloc: ${bloc.runtimeType}, change: $change');
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    // TODO: implement onTransition
+    super.onTransition(bloc, transition);
+    log('onTransition -- bloc: ${bloc.runtimeType}, transition: $transition');
   }
-  
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    log('onError -- bloc: ${bloc.runtimeType}, error: $error');
+    super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    log('onClose -- bloc: ${bloc.runtimeType}');
+  }
 }

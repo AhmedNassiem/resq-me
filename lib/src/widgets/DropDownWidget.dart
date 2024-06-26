@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:resq_me/Cubits/theme_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({super.key});
@@ -31,7 +31,8 @@ class _DropDownWidgetState extends State<DropDownWidget> {
   }
 
   Future<void> _saveSelectedTheme(String value) async {
-    await _prefs.setString('themeMode', value); // Save the selected theme mode to shared preferences
+    await _prefs.setString('themeMode',
+        value); // Save the selected theme mode to shared preferences
   }
 
   @override
@@ -42,7 +43,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
-      style: const TextStyle(color: Colors.red),
+      style: TextStyle(color: Color(0xFFBA143C)),
       underline: Container(),
       onChanged: (String? newValue) {
         setState(() {
@@ -67,4 +68,3 @@ class _DropDownWidgetState extends State<DropDownWidget> {
     );
   }
 }
-
