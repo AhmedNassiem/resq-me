@@ -155,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         });
                       },
-                      icon: Icon(Icons.password),
+                      icon: Icon(Icons.remove_red_eye_outlined),
                     ),
                     validator: (val) {
                       if (val!.isEmpty) {
