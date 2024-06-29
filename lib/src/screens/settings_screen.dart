@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_me/src/widgets/DropDownWidget.dart';
-import 'package:resq_me/src/widgets/custom_button.dart';
-
-import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -27,12 +23,7 @@ class SettingsScreen extends StatelessWidget {
               DropDownWidget()
             ],
           ),
-        ),
-        FilledButton(
-            onPressed: () {
-              context.read<SignInBloc>().add(const SignOutRequired());
-            },
-            child: const Text("Sign Out"))
+        )
       ],
     );
   }

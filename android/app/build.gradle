@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "osama.zaki.mohammed.resq_me"
-        minSdk = 23
+        minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = 1
         versionName = "1.0"

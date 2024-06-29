@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/Custom_ListTile.dart';
+import 'detection_screen.dart';
 import 'hospitals_screen.dart';
 import 'note_Screen.dart';
 import 'pharmacy_screen.dart';
@@ -18,7 +20,7 @@ class TheDrawer extends StatelessWidget {
           children: [
             Text('Drawer', style: TextStyle(fontWeight: FontWeight.bold)),
             Text('Help', style: TextStyle(fontWeight: FontWeight.bold)),
-            CustomListTile(name: 'AR', screen: Text("AR Screen")),
+            CustomListTile(name: 'Detect', screen: DetectionScreen()),
             CustomListTile(name: 'Band Aid', screen: Text("Band Aid Screen")),
             Divider(color: Colors.grey, thickness: 0.5, endIndent: 30),
             CustomListTile(name: 'Hospitals', screen: Hospitals()),

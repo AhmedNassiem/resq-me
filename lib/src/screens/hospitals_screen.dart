@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_me/Cubits/hospital_cubit.dart';
 import 'package:resq_me/src/screens/drawer_screen.dart';
 
-import '../../Models/Hospital_Model.dart';
 import '../widgets/hospital_card.dart';
 
 class Hospitals extends StatefulWidget {
