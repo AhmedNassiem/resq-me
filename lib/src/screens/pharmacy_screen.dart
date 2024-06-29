@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:resq_me/Cubits/pharmacy_cubit.dart';
 import 'package:resq_me/src/screens/drawer_screen.dart';
-
 import '../widgets/pharmacy_card.dart';
 
 class Pharmacies extends StatefulWidget {
-  const Pharmacies({super.key});
+  const Pharmacies({Key? key}) : super(key: key);
 
   @override
   _PharmaciesState createState() => _PharmaciesState();
@@ -20,39 +19,39 @@ class _PharmaciesState extends State<Pharmacies> {
   @override
   void initState() {
     super.initState();
-    // Fetch pharmacies when the widget is first built
     context.read<PharmacyCubit>().getPharmacies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PharmacyCubit, PharmacyState>(
-      builder: (context, state) {
-        if (state is PharmacyInitial) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is PharmacySuccess || state is PharmacyStateFiltered) {
-          final pharmacies = state is PharmacySuccess
-              ? state.pharmacyModel
-              : (state as PharmacyStateFiltered).filteredPharmacyModel;
+    return Scaffold(
+      key: _scaffoldKey,
+      drawer: const TheDrawer(),
+      appBar: AppBar(
+        elevation: 0,
+        shadowColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _isSearchBarVisible = !_isSearchBarVisible;
+              });
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
+      ),
+      body: BlocBuilder<PharmacyCubit, PharmacyState>(
+        builder: (context, state) {
+          if (state is PharmacyInitial) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is PharmacySuccess ||
+              state is PharmacyStateFiltered) {
+            final pharmacies = state is PharmacySuccess
+                ? state.pharmacyModel
+                : (state as PharmacyStateFiltered).filteredPharmacyModel;
 
-          return Scaffold(
-            key: _scaffoldKey,
-            drawer: const TheDrawer(),
-            appBar: AppBar(
-              elevation: 0,
-              shadowColor: Colors.white,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isSearchBarVisible = !_isSearchBarVisible;
-                    });
-                  },
-                  icon: const Icon(Icons.search),
-                ),
-              ],
-            ),
-            body: Column(
+            return Column(
               children: [
                 if (_isSearchBarVisible)
                   Padding(
@@ -64,10 +63,7 @@ class _PharmaciesState extends State<Pharmacies> {
                         hintText: 'Search pharmacies...',
                         hintStyle: const TextStyle(color: Colors.grey),
                         prefixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Colors.red,
-                          ),
+                          icon: const Icon(Icons.clear, color: Colors.red),
                           onPressed: () {
                             _searchController.clear();
                             context.read<PharmacyCubit>().searchPharmacy('');
@@ -87,28 +83,24 @@ class _PharmaciesState extends State<Pharmacies> {
                   ),
                 Expanded(
                   child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Pharmacy_Card(
-                        pharmacyModel: pharmacies[index],
-                      );
-                    },
                     itemCount: pharmacies.length,
+                    itemBuilder: (context, index) {
+                      return Pharmacy_Card(pharmacyModel: pharmacies[index]);
+                    },
                   ),
                 ),
               ],
-            ),
-          );
-        } else if (state is PharmacyFailure) {
-          return const Center(
-            child: Text('Oops, there was an error'),
-          );
-        } else {
-          return const Center(
-            child: Text(
-                'Oops, there was an unexpected error. Please try again later.'),
-          );
-        }
-      },
+            );
+          } else if (state is PharmacyFailure) {
+            return const Center(child: Text('Oops, there was an error'));
+          } else {
+            return const Center(
+              child: Text(
+                  'Oops, there was an unexpected error. Please try again later.'),
+            );
+          }
+        },
+      ),
     );
   }
 }

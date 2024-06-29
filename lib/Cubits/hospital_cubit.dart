@@ -14,11 +14,14 @@ class HospitalStateCubit extends Cubit<HospitalState> {
 
   getHospitals() async {
     try {
-      List<HospitalModel> hospitalModel = await HospitalServices().getHospitals();
-      _allHospitals = hospitalModel; // Store the complete list
+      List<HospitalModel> hospitalModel =
+          await HospitalServices().getHospitals();
+      _allHospitals = hospitalModel;
+
       emit(HospitalStateSuccess(hospitalModel));
     } on DioException catch (e) {
-      String errorMessage = e.response?.data['error']['message'] ?? 'Oops, There was an error. Try later.';
+      String errorMessage = e.response?.data['error']['message'] ??
+          'Oops, There was an error. Try later.';
       throw Exception(errorMessage);
     } catch (e) {
       emit(HospitalStateFailure());
@@ -36,4 +39,3 @@ class HospitalStateCubit extends Cubit<HospitalState> {
     }
   }
 }
-

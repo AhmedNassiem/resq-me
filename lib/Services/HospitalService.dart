@@ -1,24 +1,20 @@
-
-
 import 'package:dio/dio.dart';
 import 'package:resq_me/constants.dart';
 
 import '../Models/Hospital_Model.dart';
 
+class HospitalServices {
+  final Dio dio = Dio();
 
-class HospitalServices{
-  final Dio dio=Dio();
-
-  Future<List<HospitalModel>>getHospitals () async{
+  Future<List<HospitalModel>> getHospitals() async {
     try {
-      Response response=await dio.get(kHospitalsApiKey);
-      List<dynamic> jsonData=response.data;
-      List<HospitalModel> hospitalList=[];
+      Response response = await dio.get(kHospitalsApiKey);
+      List<dynamic> jsonData = response.data;
+      List<HospitalModel> hospitalList = [];
 
-      for(var hospital in jsonData){
-        HospitalModel hospitalModel =HospitalModel.fromJson(hospital);
+      for (var hospital in jsonData) {
+        HospitalModel hospitalModel = HospitalModel.fromJson(hospital);
         hospitalList.add(hospitalModel);
-
       }
 
       return hospitalList;
@@ -26,7 +22,5 @@ class HospitalServices{
       print(e.toString());
       return [];
     }
-
   }
-
 }

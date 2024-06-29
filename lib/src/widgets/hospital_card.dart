@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:resq_me/Models/Hospital_Model.dart';
 import 'Hospital_Pharmacy_button.dart';
 
 class Hospital_Card extends StatelessWidget {
   final double padding;
-  const Hospital_Card({super.key, required this.padding, required this.hospitalModel});
+  const Hospital_Card(
+      {super.key, required this.padding, required this.hospitalModel});
   final HospitalModel hospitalModel;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -14,7 +18,7 @@ class Hospital_Card extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: Column(
             children: [
-               Card(
+              Card(
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.zero,
@@ -25,7 +29,8 @@ class Hospital_Card extends StatelessWidget {
                 child: ListTile(
                   title: Text(
                     hospitalModel.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
                     '${hospitalModel.government}, ${hospitalModel.city}',
@@ -46,19 +51,38 @@ class Hospital_Card extends StatelessWidget {
                     ListTile(
                       title: Padding(
                         padding: EdgeInsets.only(left: padding),
-                        child:  Text(
+                        child: Text(
                           hospitalModel.kindName,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        CustomizedH_P_Button(name: 'Location', myIcon: Icons.directions_outlined,screen: Placeholder(),theRadius: 24.0,),
+                        CustomizedH_P_Button(
+                          name: 'Location',
+                          myIcon: Icons.directions_outlined,
+                          screen: Placeholder(),
+                          theRadius: 24.0,
+                          function: () => MapsLauncher.launchCoordinates(
+                              hospitalModel.latitude,
+                              hospitalModel.longitude,
+                              hospitalModel.name),
+                        ),
                         SizedBox(width: 8),
-                        CustomizedH_P_Button(name: 'Call', myIcon: Icons.call_outlined,screen: Placeholder(),theRadius: 24.0,),
+                        CustomizedH_P_Button(
+                          name: 'Call',
+                          myIcon: Icons.call_outlined,
+                          screen: Placeholder(),
+                          theRadius: 24.0,
+                          function: () {
+                            FlutterPhoneDirectCaller.callNumber(
+                                hospitalModel.call);
+                          },
+                        ),
                         SizedBox(width: 8),
                       ],
                     ),

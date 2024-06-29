@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:resq_me/Models/Pharmacy_Model.dart';
 import 'Hospital_Pharmacy_button.dart';
 
 class Pharmacy_Card extends StatelessWidget {
-
   const Pharmacy_Card({super.key, required this.pharmacyModel});
   final PharmacyModel pharmacyModel;
   @override
@@ -12,7 +13,7 @@ class Pharmacy_Card extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child:  Column(
+          child: Column(
             children: [
               Card(
                 shape: const RoundedRectangleBorder(
@@ -23,9 +24,10 @@ class Pharmacy_Card extends StatelessWidget {
                         topRight: Radius.circular(15))),
                 margin: const EdgeInsets.all(0),
                 child: ListTile(
-                  title:  Text(
+                  title: Text(
                     pharmacyModel.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
                     '${pharmacyModel.government}, ${pharmacyModel.city}',
@@ -33,7 +35,7 @@ class Pharmacy_Card extends StatelessWidget {
                   ),
                 ),
               ),
-              const Card(
+              Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.zero,
@@ -48,7 +50,8 @@ class Pharmacy_Card extends StatelessWidget {
                         padding: EdgeInsets.only(left: 90),
                         child: Text(
                           'Open All Day',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
@@ -56,9 +59,27 @@ class Pharmacy_Card extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        CustomizedH_P_Button(name: 'Location', myIcon: Icons.directions_outlined,screen: Placeholder(),theRadius: 24.0,),
+                        CustomizedH_P_Button(
+                          name: 'Location',
+                          myIcon: Icons.directions_outlined,
+                          screen: Placeholder(),
+                          theRadius: 24.0,
+                          function: () => MapsLauncher.launchCoordinates(
+                              pharmacyModel.latitude,
+                              pharmacyModel.longitude,
+                              pharmacyModel.name),
+                        ),
                         SizedBox(width: 8),
-                        CustomizedH_P_Button(name: 'Call', myIcon: Icons.call_outlined,screen: Placeholder(),theRadius: 24.0,),
+                        CustomizedH_P_Button(
+                          name: 'Call',
+                          myIcon: Icons.call_outlined,
+                          screen: Placeholder(),
+                          theRadius: 24.0,
+                          function: () {
+                            FlutterPhoneDirectCaller.callNumber(
+                                pharmacyModel.call);
+                          },
+                        ),
                         SizedBox(width: 8),
                       ],
                     ),
